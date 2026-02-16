@@ -1,43 +1,51 @@
-# PawPal+ (Module 2 Project)
+🐾 PawPal+
+Smart Pet Care Management System
 
-You are building **PawPal+**, a Streamlit app that helps a pet owner plan care tasks for their pet.
+PawPal+ is a modular pet care application designed to help owners maintain their pets' health and happiness. By combining Python’s Object-Oriented Programming (OOP) with a "CLI-first" development workflow, the system manages daily routines—feedings, walks, and medications—using smart scheduling logic.
 
-## Scenario
+🚀 Features
+Modular OOP Design: Logic is separated into Owner, Pet, Task, and Scheduler classes for high maintainability.
 
-A busy pet owner needs help staying consistent with pet care. They want an assistant that can:
+Smart Scheduling: Automatically sorts tasks chronologically using 24-hour time logic.
 
-- Track pet care tasks (walks, feeding, meds, enrichment, grooming, etc.)
-- Consider constraints (time available, priority, owner preferences)
-- Produce a daily plan and explain why it chose that plan
+Conflict Detection: Flags overlapping tasks at the same time across multiple pets to prevent scheduling errors.
 
-Your job is to design the system first (UML), then implement the logic in Python, then connect it to the Streamlit UI.
+Daily Recurrence: Automatically generates a new task instance when a "Daily" task is marked as complete.
 
-## What you will build
+Session-Managed UI: Built with Streamlit, utilizing session_state to persist pet and task data across browser refreshes.
 
-Your final app should:
+🛠️ System Architecture
+The system follows a modular architecture where the Scheduler acts as the operational brain, processing data stored within the Owner and Pet objects.
 
-- Let a user enter basic owner + pet info
-- Let a user add/edit tasks (duration + priority at minimum)
-- Generate a daily schedule/plan based on constraints and priorities
-- Display the plan clearly (and ideally explain the reasoning)
-- Include tests for the most important scheduling behaviors
+Code snippet
+classDiagram
+    Owner "1" o-- "many" Pet : manages
+    Pet "1" o-- "many" Task : has
+    Scheduler ..> Owner : processes
+    class Owner { +name, +pets, +add_pet() }
+    class Pet { +name, +species, +tasks, +add_task() }
+    class Task { +description, +time, +frequency, +is_complete, +mark_complete() }
+    class Scheduler { +sort_tasks(), +detect_conflicts(), +get_all_tasks() }
+📦 Installation & Setup
+Clone the Repository:
 
-## Getting started
+Bash
+git clone <your-repo-link>
+cd ai110-module2-pawpal
+Install Dependencies:
 
-### Setup
+Bash
+pip install streamlit pytest
+Run the Application:
 
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
+Bash
+streamlit run app.py
+🧪 Testing
+The backend logic is verified through an automated pytest suite. To run the tests and confirm system integrity:
 
-### Suggested workflow
+Bash
+python -m pytest
+💡 Engineering Reflection
+Tradeoffs: The conflict detection algorithm currently uses exact-time matching. While high-performance, it does not yet account for task durations (e.g., a 30-minute walk). This was a deliberate choice for the MVP to prioritize system stability.
 
-1. Read the scenario carefully and identify requirements and edge cases.
-2. Draft a UML diagram (classes, attributes, methods, relationships).
-3. Convert UML into Python class stubs (no logic yet).
-4. Implement scheduling logic in small increments.
-5. Add tests to verify key behaviors.
-6. Connect your logic to the Streamlit UI in `app.py`.
-7. Refine UML so it matches what you actually built.
+AI Collaboration: GitHub Copilot was utilized to scaffold class skeletons and generate test cases for edge cases, such as empty task lists and recurring task generation logic.
